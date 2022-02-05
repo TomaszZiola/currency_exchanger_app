@@ -1,5 +1,6 @@
 package com.ziola.currencyexchanger.controllers;
 
+import com.ziola.currencyexchanger.NBP.Connector;
 import com.ziola.currencyexchanger.dto.CurrencyInputDto;
 import com.ziola.currencyexchanger.dto.CurrencyOutputDto;
 import com.ziola.currencyexchanger.errors.CurrencyInputEmptyException;
@@ -16,10 +17,10 @@ public class MainController {
         CurrencyInputDto currencyInputTemp = checkIfCorrect(currencyInputDto);
 
         CurrencyOutputDto result = new CurrencyOutputDto.Builder()
-                .currencyToExchange("0")
+                .currencyToExchange(currencyInputTemp.getCurrencyToExchange())
                 .currencyExchanged(currencyInputTemp.getCurrencyExchanged())
-                .amountToExchange("0")
-                .amountExchanged("0")
+                .amountToExchange(currencyInputTemp.getAmountToExchange())
+                .amountExchanged(currencyInputTemp.getAmountExchanged())
                 .build();
 
         return result;
