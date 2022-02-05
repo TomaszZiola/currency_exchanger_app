@@ -34,8 +34,6 @@ public class Connector {
         ResponseEntity<List<NbpResponse>> responseEntityB = restTemplate.exchange(requestEntityB, new ParameterizedTypeReference<>() {
         });
 
-        List<NbpResponse> listA= responseEntityA.getBody();
-
         List<NbpRates> ratesA = responseEntityA.getBody().stream().findFirst().get().getRates();
         List<NbpRates> ratesB = responseEntityB.getBody().stream().findFirst().get().getRates();
 

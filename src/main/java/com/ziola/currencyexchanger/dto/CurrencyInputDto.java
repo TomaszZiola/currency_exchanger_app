@@ -10,5 +10,4 @@ public class CurrencyInputDto {
     String currencyToExchange;
     String currencyExchanged;
     String amountToExchange;
-    String amountExchanged;
 }
