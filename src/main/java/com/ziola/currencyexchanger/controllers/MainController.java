@@ -1,6 +1,5 @@
 package com.ziola.currencyexchanger.controllers;
 
-import com.ziola.currencyexchanger.NBP.Connector;
 import com.ziola.currencyexchanger.dto.CurrencyInputDto;
 import com.ziola.currencyexchanger.dto.CurrencyOutputDto;
 import com.ziola.currencyexchanger.errors.CurrencyInputEmptyException;
@@ -16,7 +15,7 @@ public class MainController {
 
     private final Calculations calculations;
 
-    @PostMapping
+    @PostMapping("/exchange")
     public CurrencyOutputDto exchangeGivenCurrency(@RequestBody CurrencyInputDto currencyInputDto) {
 
         CurrencyInputDto currencyInputTemp = checkIfCorrect(currencyInputDto);

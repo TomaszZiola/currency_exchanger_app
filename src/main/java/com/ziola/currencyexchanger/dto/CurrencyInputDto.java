@@ -1,13 +1,11 @@
 package com.ziola.currencyexchanger.dto;
+import lombok.Getter;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
+@Getter
 public class CurrencyInputDto {
 
     String currencyToExchange;
     String currencyExchanged;
     String amountToExchange;
+
 }
