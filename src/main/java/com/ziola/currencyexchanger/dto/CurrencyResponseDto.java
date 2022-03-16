@@ -18,22 +18,22 @@ public class CurrencyResponseDto {
         String previousValue;
         String value;
 
-        public Builder currencyToExchange(String val) {
+        public Builder previousCurrency(String val) {
             previousCurrency = val;
             return this;
         }
 
-        public Builder currencyExchanged(String val) {
+        public Builder currency(String val) {
             currency = val;
             return this;
         }
 
-        public Builder amountToExchange(String val) {
+        public Builder previousValue(String val) {
             previousValue = val;
             return this;
         }
 
-        public Builder amountExchanged(String val) {
+        public Builder value(String val) {
             value = val;
             return this;
         }

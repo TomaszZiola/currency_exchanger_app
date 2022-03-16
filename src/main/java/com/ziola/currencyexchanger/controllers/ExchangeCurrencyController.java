@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
+import static org.apache.commons.lang3.StringUtils.isAnyBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.math.NumberUtils.isParsable;
+
 @RestController
 @RequiredArgsConstructor
 public class ExchangeCurrencyController {
@@ -19,13 +25,17 @@ public class ExchangeCurrencyController {
     public CurrencyResponseDto exchangeGivenCurrency(@RequestBody CurrencyRequestDto currencyInputDto) {
 
         checkIfCorrect(currencyInputDto);
+        final String currency = currencyInputDto.getCurrency();
+        final String targetCurrency = currencyInputDto.getTargetCurrency();
+        final String value = currencyInputDto.getValue();
+        final String exchangedValue = calculations.calculateExchangedAmount(currencyInputDto.getTargetCurrency(),
+                currencyInputDto.getCurrency(), currencyInputDto.getValue());
 
         CurrencyResponseDto result = new CurrencyResponseDto.Builder()
-                .currencyToExchange(currencyInputDto.getTargetCurrency())
-                .currencyExchanged(currencyInputDto.getCurrency())
-                .amountToExchange(currencyInputDto.getValue())
-                .amountExchanged(calculations.calculateExchangedAmount(currencyInputDto.getTargetCurrency(),
-                        currencyInputDto.getCurrency(), currencyInputDto.getValue()))
+                .previousCurrency(targetCurrency)
+                .currency(currency)
+                .previousValue(value)
+                .value(exchangedValue)
                 .build();
 
         return result;
@@ -33,12 +43,14 @@ public class ExchangeCurrencyController {
 
     private void checkIfCorrect(CurrencyRequestDto currencyInputDto) {
 
-        if (currencyInputDto.getCurrency().isBlank() ||
-                currencyInputDto.getTargetCurrency().isBlank() ||
-                currencyInputDto.getValue().isBlank()){
+        final String currency = currencyInputDto.getCurrency();
+        final String targetCurrency = currencyInputDto.getTargetCurrency();
+        final String value = currencyInputDto.getValue();
 
-            throw new CurrencyInputEmptyException("Field cannot be empty!");
-        }
+        if (isAnyBlank(currency, targetCurrency))
+            throw new CurrencyInputEmptyException("Currency fields cannot be empty!");
+        else if(isBlank(value) || !isParsable(value))
+        throw new CurrencyInputEmptyException("Currency value must be a valid number!");
     }
 
 }
