@@ -4,9 +4,9 @@ Application to exchange currencies using NBP data.
 
 
 To exchange send post request json with fields:
-{
-currencyToExchange
-currencyExchanged
-amountToExchange
-}
+      {
+        currencyToExchange
+        currencyExchanged
+        amountToExchange
+      }
 
