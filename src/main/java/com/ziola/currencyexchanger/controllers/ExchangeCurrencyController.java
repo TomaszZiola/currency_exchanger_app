@@ -3,13 +3,11 @@ package com.ziola.currencyexchanger.controllers;
 import com.ziola.currencyexchanger.dto.CurrencyRequestDto;
 import com.ziola.currencyexchanger.dto.CurrencyResponseDto;
 import com.ziola.currencyexchanger.errors.CurrencyInputEmptyException;
-import com.ziola.currencyexchanger.service.CalculationsImpl;
+import com.ziola.currencyexchanger.service.Calculations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.isAnyBlank;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -19,7 +17,7 @@ import static org.apache.commons.lang3.math.NumberUtils.isParsable;
 @RequiredArgsConstructor
 public class ExchangeCurrencyController {
 
-    private final CalculationsImpl calculationsImpl;
+    private final Calculations calculations;
 
     @PostMapping("/exchange")
     public CurrencyResponseDto exchangeGivenCurrency(@RequestBody CurrencyRequestDto currencyRequestDto) {
@@ -28,7 +26,7 @@ public class ExchangeCurrencyController {
         final String currency = currencyRequestDto.getCurrency().toUpperCase();
         final String targetCurrency = currencyRequestDto.getTargetCurrency().toUpperCase();
         final String value = currencyRequestDto.getValue();
-        final String exchangedValue = calculationsImpl.calculateExchangedAmount(targetCurrency,
+        final String exchangedValue = calculations.calculateExchangedAmount(targetCurrency,
                 currency, value);
 
         CurrencyResponseDto result = new CurrencyResponseDto.Builder()
