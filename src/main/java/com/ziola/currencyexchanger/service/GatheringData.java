@@ -3,6 +3,7 @@ package com.ziola.currencyexchanger.service;
 import com.ziola.currencyexchanger.NBP.Connector;
 import com.ziola.currencyexchanger.NBP.NbpRates;
 import com.ziola.currencyexchanger.errors.CurrencyNotFoundException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ public class GatheringData {
         updateCurrencies();
     }
 
+    @Scheduled(cron = "0 0 8 * * ?")
     private void updateCurrencies() {
         allCurrencies = connector.consumeCurrencies();
     }
