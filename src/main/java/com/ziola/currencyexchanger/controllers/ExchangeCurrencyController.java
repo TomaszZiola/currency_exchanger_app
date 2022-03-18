@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Locale;
+
 import static org.apache.commons.lang3.StringUtils.isAnyBlank;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.math.NumberUtils.isParsable;
@@ -23,15 +25,15 @@ public class ExchangeCurrencyController {
     public CurrencyResponseDto exchangeGivenCurrency(@RequestBody CurrencyRequestDto currencyRequestDto) {
 
         checkIfCorrect(currencyRequestDto);
-        final String currency = currencyRequestDto.getCurrency();
-        final String targetCurrency = currencyRequestDto.getTargetCurrency();
+        final String currency = currencyRequestDto.getCurrency().toUpperCase();
+        final String targetCurrency = currencyRequestDto.getTargetCurrency().toUpperCase();
         final String value = currencyRequestDto.getValue();
-        final String exchangedValue = calculationsImpl.calculateExchangedAmount(currencyRequestDto.getTargetCurrency(),
-                currencyRequestDto.getCurrency(), currencyRequestDto.getValue());
+        final String exchangedValue = calculationsImpl.calculateExchangedAmount(targetCurrency,
+                currency, value);
 
         CurrencyResponseDto result = new CurrencyResponseDto.Builder()
-                .previousCurrency(targetCurrency)
-                .currency(currency)
+                .previousCurrency(currency)
+                .currency(targetCurrency)
                 .previousValue(value)
                 .value(exchangedValue)
                 .build();
