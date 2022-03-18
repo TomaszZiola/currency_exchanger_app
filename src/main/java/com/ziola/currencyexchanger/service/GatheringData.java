@@ -2,6 +2,7 @@ package com.ziola.currencyexchanger.service;
 
 import com.ziola.currencyexchanger.NBP.Connector;
 import com.ziola.currencyexchanger.NBP.NbpRates;
+import com.ziola.currencyexchanger.errors.CurrencyNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,6 +24,9 @@ public class GatheringData {
     }
 
     public BigDecimal findCurrencyMid(String code) {
-        return allCurrencies.get(code).getMid();
+        NbpRates result = allCurrencies.get(code);
+        if (result == null)
+            throw new CurrencyNotFoundException("Currency has not been found!");
+        return result.getMid();
     }
 }

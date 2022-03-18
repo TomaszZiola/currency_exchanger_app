@@ -9,8 +9,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionHandlerCurrency {
 
     @ExceptionHandler(CurrencyInputEmptyException.class)
-    public ResponseEntity<ErrorCurrency> currencyInputEmpty() {
-        ErrorCurrency error = new ErrorCurrency("Fields cannot be empty!");
+    public ResponseEntity<ErrorCurrency> currencyInputEmpty(CurrencyInputEmptyException e) {
+        ErrorCurrency error = new ErrorCurrency(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CurrencyNotFoundException.class)
+    public ResponseEntity<ErrorCurrency> currencyNotFound(CurrencyNotFoundException e) {
+        ErrorCurrency error = new ErrorCurrency(e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
